@@ -1,0 +1,32 @@
+service: aws-mentorship
+frameworkVersion: "3"
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+  region: eu-north-1
+
+plugins:
+  - serverless-webpack
+  - serverless-functions-base-path
+
+custom:
+  webpackIncludeModules: true
+  functionsBasePath: functions
+
+functions:
+  getProductsById:
+    handler: getProductsById.getProductsById
+    name: product
+    events:
+      - http:
+          path: /products/{id}
+          method: get
+
+  getProductsList:
+    handler: getProductsList.getProductsList
+    name: products
+    events:
+      - http:
+          path: /products
+          method: get

@@ -1,0 +1,34 @@
+import { availableProducts } from "../../data/mockedProducts";
+import { getProductsList } from "../getProductsList";
+import { Context } from "aws-lambda";
+
+const mockedContext: Context = {
+  callbackWaitsForEmptyEventLoop: false,
+  functionName: "mocked",
+  functionVersion: "mocked",
+  invokedFunctionArn: "mocked",
+  memoryLimitInMB: "mocked",
+  awsRequestId: "mocked",
+  logGroupName: "mocked",
+  logStreamName: "mocked",
+  getRemainingTimeInMillis(): number {
+    return 999;
+  },
+  done(error?: Error, result?: any): void {
+    return;
+  },
+  fail(error: Error | string): void {
+    return;
+  },
+  succeed(messageOrObject: any): void {
+    return;
+  },
+};
+describe("getProductsList", () => {
+  it("should return products list", async () => {
+    const response = await getProductsList({}, mockedContext, () => {});
+
+    expect(response.statusCode).toBe(200);
+    expect(JSON.parse(response.body)).toEqual(availableProducts);
+  });
+});
