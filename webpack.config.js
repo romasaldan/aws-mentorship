@@ -2,8 +2,8 @@ const path = require("path");
 
 module.exports = {
   entry: {
-    getProductsById: "./functions/getProductsById",
-    getProductsList: "./functions/getProductsList",
+    getProductsById: "./src/functions/getProductsById",
+    getProductsList: "./src/functions/getProductsList",
   },
   mode: "production",
   target: "node",

@@ -7,16 +7,17 @@ provider:
   region: eu-north-1
 
 plugins:
+  - serverless-auto-swagger
   - serverless-webpack
-  - serverless-functions-base-path
+  - serverless-esbuild
 
 custom:
   webpackIncludeModules: true
-  functionsBasePath: functions
 
 functions:
   getProductsById:
-    handler: getProductsById.getProductsById
+    handler: src/functions/getProductsById.getProductsById
+    module:
     name: product
     events:
       - http:
@@ -24,7 +25,7 @@ functions:
           method: get
 
   getProductsList:
-    handler: getProductsList.getProductsList
+    handler: src/functions/getProductsList.getProductsList
     name: products
     events:
       - http:

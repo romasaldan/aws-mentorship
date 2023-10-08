@@ -2,7 +2,7 @@
   "name": "aws-mentorship",
   "version": "1.0.0",
   "description": "",
-  "main": "getProductsById.js",
+  "main": "",
   "scripts": {
     "test": "jest",
     "build": "webpack",
@@ -16,6 +16,8 @@
     "@types/aws-lambda": "^8.10.123",
     "@types/jest": "^29.5.5",
     "jest": "^29.7.0",
+    "serverless-auto-swagger": "^2.12.0",
+    "serverless-esbuild": "^1.48.4",
     "serverless-functions-base-path": "^1.0.33",
     "serverless-webpack": "^5.13.0",
     "ts-jest": "^29.1.1",
