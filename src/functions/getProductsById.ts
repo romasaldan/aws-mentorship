@@ -21,7 +21,7 @@ export const getProductsById: Handler = async (event) => {
   }
 
   return {
-    statusCode: 204,
-    body: "",
+    statusCode: 404,
+    body: { error: "Product not found" },
   };
 };
