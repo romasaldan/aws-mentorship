@@ -4,9 +4,9 @@ import { Handler } from "aws-lambda";
 import { availableProducts } from "../data/mockedProducts";
 
 export const getProductsById: Handler = async (event) => {
-  const productId = event.pathParameters.id;
+  const productId = event.pathParameters?.id;
   const product = availableProducts.find((product) => product.id === productId);
-  const requestOrigin = event.headers.origin || "";
+  const requestOrigin = event.headers?.origin || "";
 
   if (product) {
     return {
@@ -22,6 +22,11 @@ export const getProductsById: Handler = async (event) => {
 
   return {
     statusCode: 404,
+    headers: {
+      "Access-Control-Allow-Headers": "Content-Type",
+      "Access-Control-Allow-Origin": requestOrigin,
+      "Access-Control-Allow-Methods": "OPTIONS,GET",
+    },
     body: { error: "Product not found" },
   };
 };
