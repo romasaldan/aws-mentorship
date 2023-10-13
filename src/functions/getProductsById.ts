@@ -27,6 +27,6 @@ export const getProductsById: Handler = async (event) => {
       "Access-Control-Allow-Origin": requestOrigin,
       "Access-Control-Allow-Methods": "OPTIONS,GET",
     },
-    body: { error: "Product not found" },
+    body: JSON.stringify({ error: "Product not found" }),
   };
 };
