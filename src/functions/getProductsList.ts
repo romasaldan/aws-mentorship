@@ -4,7 +4,7 @@ import { Handler } from "aws-lambda";
 import { availableProducts } from "../data/mockedProducts";
 
 export const getProductsList: Handler = async (event) => {
-  const requestOrigin = event.headers.origin || "";
+  const requestOrigin = event.headers?.origin || "";
 
   return {
     statusCode: 200,

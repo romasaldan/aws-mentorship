@@ -49,7 +49,7 @@ describe("getProductsById", () => {
 
     const response = await getProductsById(mockEvent, mockedContext, () => {});
 
-    expect(response.statusCode).toBe(204);
-    expect(response.body).toBe("");
+    expect(response.statusCode).toBe(404);
+    expect(response.body).toBe('{"error":"Product not found"}');
   });
 });
