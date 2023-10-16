@@ -10,6 +10,7 @@ plugins:
   - serverless-auto-swagger
   - serverless-webpack
   - serverless-esbuild
+  - serverless-dynamodb-local
 
 custom:
   webpackIncludeModules: true
@@ -31,3 +32,40 @@ functions:
       - http:
           path: /products
           method: get
+
+  createProduct:
+    handler: src/functions/createProduct.createProduct
+    name: createProduct
+    events:
+      - http:
+          path: /products
+          method: post
+
+resources:
+  Resources:
+    productTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: productTable
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 5
+          WriteCapacityUnits: 5
+    stockModel:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: stockModel
+        AttributeDefinitions:
+          - AttributeName: product_id
+            AttributeType: S
+        KeySchema:
+          - AttributeName: product_id
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 5
+          WriteCapacityUnits: 5
