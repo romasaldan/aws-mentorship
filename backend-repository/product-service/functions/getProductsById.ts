@@ -3,7 +3,7 @@
 import { Handler } from "aws-lambda";
 import { DynamoDB } from "@aws-sdk/client-dynamodb";
 import { Product, Stock } from "../models/Product";
-import { marshall, unmarshall } from "@aws-sdk/util-dynamodb";
+import { unmarshall } from "@aws-sdk/util-dynamodb";
 
 const dynamo = new DynamoDB({ region: "eu-north-1" });
 
