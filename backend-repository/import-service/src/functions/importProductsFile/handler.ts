@@ -6,7 +6,7 @@ import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 
 import { schema } from "./schema";
 
-const importProductsFile: ValidatedEventAPIGatewayProxyEvent<
+export const importProductsFile: ValidatedEventAPIGatewayProxyEvent<
   typeof schema
 > = async (event) => {
   try {
