@@ -6,7 +6,7 @@ import importFileParser from "@functions/importFileParser";
 const serverlessConfiguration: AWS = {
   service: "import-service",
   frameworkVersion: "3",
-  plugins: ["serverless-esbuild"],
+  plugins: ["serverless-esbuild", "serverless-offline"],
   provider: {
     name: "aws",
     runtime: "nodejs18.x",
