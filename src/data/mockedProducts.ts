@@ -1,9 +1,9 @@
 import { OrderStatus } from "../models/Order";
 import { CartItem } from "../models/CartItem";
 import { Order } from "../models/Order";
-import { AvailableProduct, Product } from "../models/Product";
+import { Product, Stock } from "../models/Product";
 
-export const products: Product[] = [
+export const initialProducts: Product[] = [
   {
     description: "Short Product Description1",
     id: "7567ec4b-b10c-48c5-9345-fc73c48a80aa",
@@ -42,7 +42,34 @@ export const products: Product[] = [
   },
 ];
 
-export const availableProducts: AvailableProduct[] = products.map(
+export const initialStockModels: Stock[] = [
+  {
+    product_id: "7567ec4b-b10c-48c5-9345-fc73c48a80aa",
+    count: 4,
+  },
+  {
+    product_id: "7567ec4b-b10c-48c5-9345-fc73c48a80a1",
+    count: 3,
+  },
+  {
+    product_id: "7567ec4b-b10c-48c5-9345-fc73c48a80a3",
+    count: 3,
+  },
+  {
+    product_id: "7567ec4b-b10c-48c5-9345-fc73348a80a1",
+    count: 8,
+  },
+  {
+    product_id: "7567ec4b-b10c-48c5-9445-fc73c48a80a2",
+    count: 2,
+  },
+  {
+    product_id: "7567ec4b-b10c-45c5-9345-fc73c48a80a1",
+    count: 1,
+  },
+];
+
+export const availableProducts: Product[] = initialProducts.map(
   (product, index) => ({ ...product, count: index + 1 })
 );
 
