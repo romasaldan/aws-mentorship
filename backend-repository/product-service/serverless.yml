@@ -17,7 +17,7 @@ custom:
 
 functions:
   getProductsById:
-    handler: src/functions/getProductsById.getProductsById
+    handler: functions/getProductsById.getProductsById
     module:
     name: product
     events:
@@ -26,7 +26,7 @@ functions:
           method: get
 
   getProductsList:
-    handler: src/functions/getProductsList.getProductsList
+    handler: functions/getProductsList.getProductsList
     name: products
     events:
       - http:
@@ -34,7 +34,7 @@ functions:
           method: get
 
   createProduct:
-    handler: src/functions/createProduct.createProduct
+    handler: functions/createProduct.createProduct
     name: createProduct
     events:
       - http:
