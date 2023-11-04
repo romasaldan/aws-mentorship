@@ -12,8 +12,14 @@ const sendData = async (product: Product) => {
     const response = await snsClient.send(
       new PublishCommand({
         TopicArn: "arn:aws:sns:eu-north-1:332213976395:createProductTopic",
-        Message: `The product ${JSON.stringify(product)} has been added`,
+        Message: `The product ${product.title} has been added. The price is ${product.price}`,
         Subject: "The new product has been added",
+        MessageAttributes: {
+          productPrice: {
+            DataType: "Number",
+            StringValue: String(product.price),
+          },
+        },
       })
     );
 

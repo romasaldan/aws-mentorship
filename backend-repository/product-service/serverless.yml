@@ -84,13 +84,25 @@ resources:
       Type: "AWS::SNS::Topic"
       Properties:
         TopicName: "createProductTopic"
-    SNSSubscription:
+    SNSSubscriptionNotPremium:
       Type: "AWS::SNS::Subscription"
       Properties:
         Endpoint: "romasaldan@gmail.com"
         Protocol: "email"
         TopicArn:
           Ref: SNSTopic
+        FilterPolicy:
+          productPrice: [{ numeric: ["<", 20] }]
+    SNSSubscriptionPremiumProducts:
+      Type: "AWS::SNS::Subscription"
+      Properties:
+        Endpoint: "roman_saldan@epam.com"
+        Protocol: "email"
+        TopicArn:
+          Ref: SNSTopic
+        FilterPolicy:
+          productPrice: [{ numeric: [">", 20] }]
+
     productTable:
       Type: AWS::DynamoDB::Table
       Properties:
