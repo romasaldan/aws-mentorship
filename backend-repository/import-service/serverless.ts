@@ -28,6 +28,11 @@ const serverlessConfiguration: AWS = {
             Action: ["s3:*"],
             Resource: ["arn:aws:s3:::uploaded-romasaldan/*"],
           },
+          {
+            Effect: "Allow",
+            Action: "sqs:*",
+            Resource: "arn:aws:sqs:eu-north-1:332213976395:catalogItemsQueue",
+          },
         ],
       },
     },
