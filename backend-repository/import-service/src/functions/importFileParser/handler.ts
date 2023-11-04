@@ -61,10 +61,8 @@ const importFileParser = async (event: S3Event) => {
               reject(error);
             })
             .on("end", async () => {
-              await Promise.all([
-                s3Client.send(getCopyCommand(record.s3.object.key)),
-                s3Client.send(getDeleteCommand(record.s3.object.key)),
-              ]);
+              await s3Client.send(getCopyCommand(record.s3.object.key));
+              await s3Client.send(getDeleteCommand(record.s3.object.key));
               resolve("success");
             });
         });
