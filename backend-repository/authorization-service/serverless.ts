@@ -1,43 +1,40 @@
 import type { AWS } from "@serverless/typescript";
 
-import importProductsFile from "@functions/importProductsFile";
-import importFileParser from "@functions/importFileParser";
+import basicAuthorizer from "@functions/basicAuthorizer";
 
 const serverlessConfiguration: AWS = {
-  service: "import-service",
+  service: "authorization-service",
   frameworkVersion: "3",
-  plugins: ["serverless-esbuild", "serverless-offline"],
+  plugins: [
+    "serverless-esbuild",
+    "serverless-dotenv-plugin",
+    "serverless-offline",
+  ],
+  useDotenv: true,
   provider: {
     name: "aws",
+    region: "eu-north-1",
     runtime: "nodejs18.x",
     apiGateway: {
       minimumCompressionSize: 1024,
       shouldStartNameWithService: true,
     },
-    region: "eu-north-1",
     environment: {
       AWS_NODEJS_CONNECTION_REUSE_ENABLED: "1",
       NODE_OPTIONS: "--enable-source-maps --stack-trace-limit=1000",
     },
-    iam: {
-      role: {
-        statements: [
-          {
-            Effect: "Allow",
-            Action: ["s3:*"],
-            Resource: ["arn:aws:s3:::uploaded-romasaldan/*"],
-          },
-          {
-            Effect: "Allow",
-            Action: "sqs:*",
-            Resource: "arn:aws:sqs:eu-north-1:332213976395:catalogItemsQueue",
-          },
-        ],
+    httpApi: {
+      authorizers: {
+        basicAuthorizer: {
+          name: "basicAuthorizer",
+          type: "request",
+          enableSimpleResponses: true,
+          functionName: "basicAuthorizer",
+        },
       },
     },
   },
-
-  functions: { importProductsFile, importFileParser },
+  functions: { basicAuthorizer },
   package: { individually: true },
   custom: {
     esbuild: {

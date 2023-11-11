@@ -1,0 +1,35 @@
+{
+  "type": "REQUEST",
+  "routeArn": "arn:aws:execute-api:us-north-1:12457895124:sdfcvsdf1/test",
+  "resource": "/request",
+  "path": "/request",
+  "httpMethod": "GET",
+  "headers": {
+    "Authorization": "Basic cm9tYXNhbGRhbj1URVNUX1BBU1NXT1JE"
+  },
+  "queryStringParameters": {},
+  "pathParameters": {},
+  "stageVariables": {},
+  "requestContext": {
+    "path": "/request",
+    "accountId": "sdfcvsdf1",
+    "resourceId": "0sdc5sadc7jbas",
+    "stage": "test",
+    "requestId": "...",
+    "identity": {
+      "clientCert": {
+        "clientCertPem": "CERT_CONTENT",
+        "subjectDN": "www.example.com",
+        "issuerDN": "Example issuer",
+        "serialNumber": "dsscasdncklsadncklsadnclksadnclsadcnksdjncds",
+        "validity": {
+          "notBefore": "Nov 28 12:00:00 2023 GMT",
+          "notAfter": "Dec 28 12:00:00 2023 GMT"
+        }
+      }
+    },
+    "resourcePath": "/request",
+    "httpMethod": "GET",
+    "apiId": "abcdef123"
+  }
+}
