@@ -5,12 +5,25 @@ provider:
   name: aws
   runtime: nodejs18.x
   region: eu-north-1
+  iamRoleStatements:
+    - Effect: Allow
+      Action: "sqs:*"
+      Resource:
+        Fn::GetAtt:
+          - catalogItemsQueue
+          - Arn
+
+    - Effect: Allow
+      Action: "sns:*"
+      Resource:
+        Ref: SNSTopic
 
 plugins:
   - serverless-auto-swagger
   - serverless-webpack
   - serverless-esbuild
   - serverless-dynamodb-local
+  - serverless-offline
 
 custom:
   webpackIncludeModules: true
@@ -41,8 +54,55 @@ functions:
           path: /products
           method: post
 
+  catalogBatchProcess:
+    handler: functions/catalogBatchProcess.catalogBatchProcess
+    name: catalogBatchProcess
+    events:
+      - sqs:
+          arn:
+            Fn::GetAtt:
+              - catalogItemsQueue
+              - Arn
+          batchSize: 5
+          enabled: true
+    iamRoleStatements:
+      - Effect: Allow
+        Action:
+          - sqs:*
+        Resource:
+          Fn::GetAtt:
+            - catalogItemsQueue
+            - Arn
+
 resources:
   Resources:
+    catalogItemsQueue:
+      Type: "AWS::SQS::Queue"
+      Properties:
+        QueueName: "catalogItemsQueue"
+    SNSTopic:
+      Type: "AWS::SNS::Topic"
+      Properties:
+        TopicName: "createProductTopic"
+    SNSSubscriptionNotPremium:
+      Type: "AWS::SNS::Subscription"
+      Properties:
+        Endpoint: "romasaldan@gmail.com"
+        Protocol: "email"
+        TopicArn:
+          Ref: SNSTopic
+        FilterPolicy:
+          productPrice: [{ numeric: ["<", 20] }]
+    SNSSubscriptionPremiumProducts:
+      Type: "AWS::SNS::Subscription"
+      Properties:
+        Endpoint: "roman_saldan@epam.com"
+        Protocol: "email"
+        TopicArn:
+          Ref: SNSTopic
+        FilterPolicy:
+          productPrice: [{ numeric: [">", 20] }]
+
     productTable:
       Type: AWS::DynamoDB::Table
       Properties:

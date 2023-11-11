@@ -8,7 +8,7 @@ import { Product } from "../models/Product";
 const client = new DynamoDBClient({ region: "eu-north-1" });
 const docClient = DynamoDBDocumentClient.from(client);
 
-const post = async (item: Product) => {
+export const addProduct = async (item: Product) => {
   const command = new PutCommand({
     TableName: process.env.productTable as string,
     Item: item,
@@ -20,7 +20,6 @@ const post = async (item: Product) => {
 
 export const createProduct: Handler = async (event) => {
   const body = JSON.parse(event.body);
-  console.log("call createProduct, body =", body);
 
   if (!body.id || typeof body.id !== "string") {
     return {
@@ -32,7 +31,7 @@ export const createProduct: Handler = async (event) => {
   }
 
   try {
-    await post(body);
+    await addProduct(body);
 
     return {
       statusCode: 200,
