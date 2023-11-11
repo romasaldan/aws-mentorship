@@ -19,16 +19,6 @@ const serverlessConfiguration: AWS = {
       AWS_NODEJS_CONNECTION_REUSE_ENABLED: "1",
       NODE_OPTIONS: "--enable-source-maps --stack-trace-limit=1000",
     },
-    // httpApi: {
-    //   cors: true,
-    //   authorizers: {
-    //     customAuthorizer: {
-    //       type: "request",
-    //       functionArn:
-    //         "arn:aws:lambda:eu-north-1:332213976395:function:authorization-service-dev-basicAuthorizer",
-    //     },
-    //   },
-    // },
     iam: {
       role: {
         statements: [
