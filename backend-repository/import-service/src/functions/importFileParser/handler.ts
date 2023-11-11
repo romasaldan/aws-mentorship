@@ -4,13 +4,8 @@ import {
   GetObjectCommand,
   S3Client,
 } from "@aws-sdk/client-s3";
-import { SendMessageCommand, SQSClient } from "@aws-sdk/client-sqs";
-
 import { S3Event } from "aws-lambda";
 import csvParser from "csv-parser";
-
-const sqsClient = new SQSClient({ region: "eu-north-1" });
-const s3Client = new S3Client({ region: "eu-north-1" });
 
 const getCopyCommand = (key: string) =>
   new CopyObjectCommand({
@@ -29,6 +24,7 @@ const importFileParser = async (event: S3Event) => {
   try {
     await Promise.all(
       event.Records.map(async (record) => {
+        const s3Client = new S3Client({ region: "eu-north-1" });
         const stream = (
           await s3Client.send(
             new GetObjectCommand({
@@ -41,28 +37,23 @@ const importFileParser = async (event: S3Event) => {
         return new Promise((resolve, reject) => {
           stream
             .pipe(csvParser())
-            .on("data", async (data) => {
-              try {
-                await sqsClient.send(
-                  new SendMessageCommand({
-                    QueueUrl:
-                      "https://sqs.eu-north-1.amazonaws.com/332213976395/catalogItemsQueue",
-                    DelaySeconds: 10,
-                    MessageBody: JSON.stringify(data),
-                  })
-                );
-              } catch (error) {
-                console.log(error, "error");
-                reject(error);
-              }
+            .on("data", (data) => {
+              console.log("CSV file is being processed: ", data);
             })
             .on("error", (error) => {
-              console.log(error, "error");
+              console.error("Error when parsed the file ", error);
               reject(error);
             })
             .on("end", async () => {
-              await s3Client.send(getCopyCommand(record.s3.object.key));
-              await s3Client.send(getDeleteCommand(record.s3.object.key));
+              console.log("Parsing of data is finished");
+
+              await Promise.all([
+                s3Client.send(getCopyCommand(record.s3.object.key)),
+                s3Client.send(getDeleteCommand(record.s3.object.key)),
+              ]);
+              console.log(
+                "the file has been copied to parsed folder and removed from uploaded folder"
+              );
               resolve("success");
             });
         });
